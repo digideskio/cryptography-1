@@ -33,6 +33,31 @@ def clean_message(message):
     return cleaned
 
 
+# Character utility functions
+
+def char_shift(char1, char2):
+    '''Calculates the distance char1 needs to be shifted by to reach char2'''
+    return ord(char2) - ord(char1)
+
+
+def shift_to_char(shift):
+    '''Converts a shift distance to an alphabetic character'''
+    return chr(ord('a') + shift)
+
+
+def char_to_shift(char):
+    '''Converts an alphabetic character to a shift distance'''
+    return ord(char) - ord('a')
+
+
+def unshift_char(char, shift):
+    '''
+        Moves a char back by `shift` steps looping back from a to z
+        if the character goes out of range.
+    '''
+    return chr((ord(char) - shift - ord('a')) % 26 + ord('a'))
+
+
 def partition(sequence, n):
     '''
         Partitions a sequence into len(sequence)/n subsequences
@@ -47,6 +72,8 @@ def partition(sequence, n):
 
     return partitions
 
+
+# Kasiski test and its parts
 
 def search_patterns_of_length(message, length):
     '''
@@ -156,34 +183,11 @@ def analyze_caesar(message, sample_frequencies):
     '''
         Analyzes a caesar cypher by simply finding the most
         common character in the cyphertext and assuming that
-        this character was originally an e
+        this character was originally the most common character
+        in the given sample frequencies.
     '''
     freqs = frequency_analysis(message)
     return char_shift(sample_frequencies[0][0], freqs[0][0])
-
-
-def char_shift(char1, char2):
-    '''Calculates the distance char1 needs to be shifted by to reach char2'''
-    return ord(char2) - ord(char1)
-
-
-def shift_to_char(shift):
-    '''Converts a shift distance to an alphabetic character'''
-    return chr(ord('a') + shift)
-
-
-def char_to_shift(char):
-    '''Converts an alphabetic character to a shift distance'''
-    return ord(char) - ord('a')
-
-
-def unshift_char(char, shift):
-    '''
-        Moves a char back by `shift` steps looping back from a to z
-        if the character goes out of range.
-    '''
-
-    return chr((ord(char) - shift - ord('a')) % 26 + ord('a'))
 
 
 def decrypt_vigenere(cyphertext, key):
