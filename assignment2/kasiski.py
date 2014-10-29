@@ -101,41 +101,23 @@ def differences(xs):
             yield Difference(xs[i], xs[j], xs[i] - xs[j])
 
 
-def calculate_gcds(diffs):
+def count_gcds(diffs):
     '''
-        Given a list of `Difference`s, calculates the greatest
-        common denominator of all possible combinations of
-        these differences.
+        Given a list of `Difference`s, calculates the
+        greatest common denominator for all possible combinations of
+        these differences and counts the occurrence of each one.
     '''
-    elements = []
+
+    gcds = {}
     diffs = list(diffs)
     l = len(diffs)
     for i in range(l):
         for j in range(i + 1, l):
             gcd_ij = gcd(abs(diffs[i].diff), abs(diffs[j].diff))
-            elements.append(gcd_ij)
 
-    elements.sort()
-    return elements
+            gcds[gcd_ij] = gcds.get(gcd_ij, 0) + 1
 
-
-def count_gcds(gcds):
-    '''
-        For a list of
-    '''
-    new_elements = []
-    accumulator = 0  # number of elements with the same gcd
-    current_gcd = 0
-    for gcd_xy in gcds:
-        if accumulator == 0 or gcd_xy == current_gcd:
-            accumulator += 1
-        else:
-            new_elements.append((current_gcd, accumulator))
-            accumulator = 1
-
-        current_gcd = gcd_xy
-
-    return new_elements
+    return gcds.items()
 
 
 def kasiski(message, min_pattern_len=2, max_pattern_len=3):
@@ -151,7 +133,7 @@ def kasiski(message, min_pattern_len=2, max_pattern_len=3):
     all_gcds = {}
     for pattern, (count, occurrences) in patterns.items():
         diffs = differences(occurrences)
-        gcds = count_gcds(calculate_gcds(diffs))
+        gcds = count_gcds(diffs)
         for (group_gcd, count) in gcds:
             all_gcds[group_gcd] = all_gcds.get(group_gcd, 0) + count
 
