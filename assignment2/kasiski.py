@@ -4,10 +4,6 @@ from fractions import gcd
 import re
 
 
-# Named tuple for easy access to its contents
-Difference = namedtuple('Difference', ['x', 'y', 'diff'])
-
-
 # Functions for frequency analysis
 
 def count_characters(message):
@@ -89,32 +85,30 @@ def search_patterns_of_length(message, length):
     return patterns
 
 
-def differences(xs):
+def distances(xs):
     '''
-    For a list [x1, ..., xn], calculates the differences
-    x1 - x2, x1 - x3, ..., x1 - xn, x2 - x3, x2 - x4, ..., x(n-1) - xn
-    and returns them as tuples of the form
-    Difference(x=xi, y=xj, diff=xi-xj).
+    For a list [x1, ..., xn], calculates the distances
+    |x1 - x2|, |x1 - x3|, ..., |x1 - xn|,
+    |x2 - x3|, |x2 - x4|, ..., |x(n-1) - xn|
+    and returns them.
     '''
     for i in range(len(xs)):
         for j in range(i + 1, len(xs)):
-            yield Difference(xs[i], xs[j], xs[i] - xs[j])
+            yield abs(xs[i] - xs[j])
 
 
-def count_gcds(diffs):
+def count_gcds(distances):
     '''
-        Given a list of `Difference`s, calculates the
+        Given a sequence of pattern distances, calculates the
         greatest common denominator for all possible combinations of
         these differences and counts the occurrence of each one.
     '''
-
     gcds = {}
-    diffs = list(diffs)
-    l = len(diffs)
+    distances = list(distances)
+    l = len(distances)
     for i in range(l):
         for j in range(i + 1, l):
-            gcd_ij = gcd(abs(diffs[i].diff), abs(diffs[j].diff))
-
+            gcd_ij = gcd(distances[i], distances[j])
             gcds[gcd_ij] = gcds.get(gcd_ij, 0) + 1
 
     return gcds.items()
@@ -132,8 +126,8 @@ def kasiski(message, min_pattern_len=2, max_pattern_len=3):
 
     all_gcds = {}
     for pattern, (count, occurrences) in patterns.items():
-        diffs = differences(occurrences)
-        gcds = count_gcds(diffs)
+        dists = distances(occurrences)
+        gcds = count_gcds(dists)
         for (group_gcd, count) in gcds:
             all_gcds[group_gcd] = all_gcds.get(group_gcd, 0) + count
 
