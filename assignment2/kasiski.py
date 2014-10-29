@@ -206,10 +206,10 @@ def decrypt_vigenere(cyphertext, key):
     return ''.join(decrypted)
 
 
-def main():
+def main(message, sample):
     '''Main entry point for program'''
     # Read in the encrypted message
-    with open('assignment2_7.txt') as handle:
+    with open(message) as handle:
         contents = clean_message(handle.read())
 
     print('Encrypted message:')
@@ -217,7 +217,7 @@ def main():
 
     # Calculate standard english frequencies from
     # a wiki article on Sonic the Hedgehog
-    with open('wiki_text.txt') as handle:
+    with open(sample) as handle:
         wiki = handle.read()
 
     wiki_freqs = frequency_analysis(clean_message(wiki))
@@ -246,4 +246,15 @@ def main():
     print(decrypted)
 
 if __name__ == '__main__':
-    main()
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument('-m', '--message',
+                        help='input message text file',
+                        default='assignment2_7.txt')
+    parser.add_argument('-s', '--sample',
+                        help='sample text of expected language',
+                        default='wiki_text.txt')
+
+    args = parser.parse_args()
+
+    main(args.message, args.sample)
