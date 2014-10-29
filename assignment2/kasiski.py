@@ -118,6 +118,7 @@ def calculate_gcds(diffs):
     elements.sort()
     return elements
 
+
 def count_gcds(gcds):
     '''
         For a list of
@@ -158,9 +159,6 @@ def kasiski(message, min_pattern_len=2, max_pattern_len=3):
     (key_length, count) = max(all_gcds.items(), key=lambda x: x[1])
 
     return key_length
-
-
-
 
 
 def analyze_vigenere(message, key_length, sample_frequencies):
