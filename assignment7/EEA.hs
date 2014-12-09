@@ -1,3 +1,6 @@
+-- Simon Kalt
+-- Clemens Ebinger
+
 module Main where
 
 -- | Returns the gcd of a and b
