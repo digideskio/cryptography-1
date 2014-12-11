@@ -3,6 +3,8 @@
 mpz_class mpz_crt_worker (std::vector<mpz_class>, std::vector<mpz_class>, int, mpz_class);
 mpz_class mpz_product(std::vector<mpz_class>, int, int);
 
+// uses the chinese remainder theorem to calculate a y that satisfies:
+// y = r_i (mod m_i) for all 1 <= i <= length(rs)
 mpz_class mpz_crt (const std::vector<mpz_class> rs, const std::vector<mpz_class> ms)
 {
     int rlen = (int) rs.size();

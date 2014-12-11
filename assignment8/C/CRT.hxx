@@ -5,7 +5,11 @@
 #include <vector>
 #include "EEA.hxx"
 
-mpz_class mpz_crt (const std::vector<mpz_class>, const std::vector<mpz_class>);
+// uses the chinese remainder theorem to calculate a y that satisfies:
+// y = r_i (mod m_i) for all 1 <= i <= length(rs)
+mpz_class mpz_crt (const std::vector<mpz_class> rs, const std::vector<mpz_class> ms);
+
+// use the chinese remainder theorem to calculate y = a^x mod (m1 * ... * mn)
 mpz_class mpz_crt_exp (mpz_class a, mpz_class x, const std::vector<mpz_class> ms);
 
 #endif

@@ -1,19 +1,12 @@
 #include "CRT.hxx"
-#include <iostream>
 #include <fstream>
 #include <ctime>
+#include <vector>
+#include <gmpxx.h>
 
 using namespace std;
 
-// throws a compile time error if used since somehow gmp_randclass is private
-// gets random numbers in the range {2^(n-1), 2^n - 1}
-mpz_class get_z_bits1(gmp_randclass rand, mp_bitcnt_t n)
-{
-    mpz_class lower_bits = rand.get_z_bits(n - 1);
-    mpz_setbit(lower_bits.get_mpz_t(), n-1);
-    return lower_bits;
-}
-
+mpz_class get_z_bits1(gmp_randclass, mp_bitcnt_t);
 void test(int, int);
 
 int main (int argc, char const *argv[])
@@ -24,6 +17,7 @@ int main (int argc, char const *argv[])
     return 0;
 }
 
+// run tests
 void test(int bits, int test_count)
 {
     // initialize random
@@ -44,6 +38,7 @@ void test(int bits, int test_count)
         clock_t begin, end;
 
         do {
+            // we do all of this by hand, since our function won't work...
             m1 = rand.get_z_bits(bits - 1);
             mpz_setbit(m1.get_mpz_t(), bits-1);
 
@@ -60,7 +55,9 @@ void test(int bits, int test_count)
         } while(cmp(mpz_gcd(m1, m2), 1) || (cmp(a, prod) > 0) || (cmp(x, prod) > 0));
 
 
-        vector<mpz_class> ms = {m1, m2};
+        vector<mpz_class> ms;
+        ms.push_back(m1);
+        ms.push_back(m2);
 
         begin = clock();
         mpz_class result = mpz_crt_exp(a, x, ms);
@@ -74,16 +71,26 @@ void test(int bits, int test_count)
         end = clock();
         times2 += end - begin;
 
-        if(cmp(result, expected))
-        {
-            printf("Results not equal!");
-            cout << result.get_str() << endl;
-            cout << expected.get_str() << endl;
-        }
+        // check if results are the same
+        // if(cmp(result, expected))
+        // {
+        //     printf("Results not equal!\n");
+        //     printf("%s\n", result.get_str().c_str());
+        //     printf("%s\n", expected.get_str().c_str());
+        // }
     }
-
 
     printf("Time spent using own algorithm: %f\n", ((double) times1) / CLOCKS_PER_SEC);
     printf("Time spent using GMP algorithm: %f\n", ((double) times2) / CLOCKS_PER_SEC);
     printf("Speed-up: %f\n", ((double) times2) / ((double) times1));
+}
+
+
+// throws a compile time error if used since somehow gmp_randclass is private
+// gets random numbers in the range {2^(n-1), 2^n - 1}
+mpz_class get_z_bits1(gmp_randclass rand, mp_bitcnt_t n)
+{
+    mpz_class lower_bits = rand.get_z_bits(n - 1);
+    mpz_setbit(lower_bits.get_mpz_t(), n-1);
+    return lower_bits;
 }

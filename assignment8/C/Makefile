@@ -1,6 +1,6 @@
 CC = g++-4.9
 
-CFLAGS = -c -std=c++11 -Wall -L/usr/local/include
+CFLAGS = -c -Wall
 LIBS = -lgmpxx -lgmp
 LDFLAGS = $(LIBS)
 SOURCES=EEA.cc CRT.cc Main.cc

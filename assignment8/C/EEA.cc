@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <gmpxx.h>
 #include "EEA.hxx"
 
 // internal function declarations
@@ -33,9 +31,35 @@ void mpz_eea (mpz_class* d, mpz_class* s, mpz_class* t, const mpz_class a, const
     // t = if b < 0 then (-t') else t'
 }
 
+// wrapper for mpz_fdiv_q
+mpz_class mpz_class_fdiv_q(const mpz_class a, const mpz_class b) {
+    mpz_class q = 0;
+    mpz_fdiv_q(q.get_mpz_t(),
+    a.get_mpz_t(),
+    b.get_mpz_t());
+    return q;
+}
+
+// wrapper for mpz_fdiv_r
+mpz_class mpz_class_fdiv_r(const mpz_class a, const mpz_class b) {
+    mpz_class r = 0;
+    mpz_fdiv_r(r.get_mpz_t(),
+    a.get_mpz_t(),
+    b.get_mpz_t());
+    return r;
+}
+
+// wrapper for mpz_fdiv_qr
+void mpz_class_fdiv_qr(mpz_class* q, mpz_class* r, const mpz_class a, const mpz_class b) {
+    mpz_fdiv_qr((*q).get_mpz_t(),
+    (*r).get_mpz_t(),
+    a.get_mpz_t(),
+    b.get_mpz_t());
+}
+
 /* Internal Functions */
 
-// iterative version
+// worker for gcd, iterative
 mpz_class mpz_gcd_worker (const mpz_class a, const mpz_class b)
 {
     mpz_class r = 0;
@@ -52,37 +76,7 @@ mpz_class mpz_gcd_worker (const mpz_class a, const mpz_class b)
     return gcd;
 }
 
-
-// iterative
-// void mpz_eea_worker (mpz_class* d, mpz_class* s, mpz_class* t,
-//                      const mpz_class a, const mpz_class b)
-// {
-//     mpz_class a_ = a, b_ = b;
-//     mpz_class u = 0, s_ = 1, v = 1, t_ = 0;
-//     mpz_class q = 0, r = 0;
-//
-//     mpz_class u_new, q_new, v_new;
-//
-//     while (cmp(b_, 0)) {
-//         mpz_class_fdiv_qr(&q_new, &r, a_, b_);
-//         a_ = b_;
-//         b_ = r;
-//         u_new = s_;
-//         v_new = t_;
-//         s_ = u - q * s_;
-//         t_ = v - q * t_;
-//         u = u_new;
-//         v = v_new;
-//         q = q_new;
-//     }
-//
-//     *d = a_;
-//     *s = u;
-//     *t = v;
-// }
-
-
-// recursive, TODO: make iterative
+// worker for eea, recursive, TODO: make iterative
 void mpz_eea_worker (mpz_class* d, mpz_class* s, mpz_class* t,
                      const mpz_class a, const mpz_class b)
 {
@@ -102,29 +96,4 @@ void mpz_eea_worker (mpz_class* d, mpz_class* s, mpz_class* t,
     mpz_class old_s = *s;
     *s = *t;
     *t = old_s - q * (*t);
-}
-
-
-
-mpz_class mpz_class_fdiv_q(const mpz_class a, const mpz_class b) {
-    mpz_class q = 0;
-    mpz_fdiv_q(q.get_mpz_t(),
-               a.get_mpz_t(),
-               b.get_mpz_t());
-    return q;
-}
-
-mpz_class mpz_class_fdiv_r(const mpz_class a, const mpz_class b) {
-    mpz_class r = 0;
-    mpz_fdiv_r(r.get_mpz_t(),
-               a.get_mpz_t(),
-               b.get_mpz_t());
-    return r;
-}
-
-void mpz_class_fdiv_qr(mpz_class* q, mpz_class* r, const mpz_class a, const mpz_class b) {
-    mpz_fdiv_qr((*q).get_mpz_t(),
-                (*r).get_mpz_t(),
-                a.get_mpz_t(),
-                b.get_mpz_t());
 }
