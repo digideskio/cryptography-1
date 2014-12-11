@@ -4,11 +4,12 @@
 This exercise was implemented in C++ using the GMP library (version 6.0.0a). After adjusting the variable `CC` in the `Makefile` to your C++ compiler, a simple `make` should build and run the implementation.
 
 ## Implementation Details
+Some of the algorithms are recursive. A conversion to iterative algorithms could possible result in even greater speed-ups.
 ### EEA.cc
 Contains the simple and extended euclidean algorithm. The simple version is implemented iteratively, the extended recursively.
 
 ### CRT.cc
-Contains the algorithms for the Chinese Remainder Theorem and the exponentiation based upon it.
+Contains the algorithms for the Chinese Remainder Theorem (recursive) and the exponentiation based upon it.
 
 ## Results
 Run on my computer, the implementation produces the following results:
