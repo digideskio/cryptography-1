@@ -82,7 +82,7 @@ mpz_class mpz_gcd_worker (const mpz_class a, const mpz_class b)
 // }
 
 
-// recursive
+// recursive, TODO: make iterative
 void mpz_eea_worker (mpz_class* d, mpz_class* s, mpz_class* t,
                      const mpz_class a, const mpz_class b)
 {

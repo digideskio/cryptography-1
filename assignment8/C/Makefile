@@ -19,8 +19,9 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 $(ODIR)/%.o: %.cc $(DEPS)
+	@mkdir -p $(ODIR)
 	$(CC) $(CFLAGS) $< -o $@
 
 .PHONY:clean
 clean:
-	rm -f $(ODIR)/*.o $(EXECUTABLE)
+	rm -rf $(ODIR) $(EXECUTABLE)

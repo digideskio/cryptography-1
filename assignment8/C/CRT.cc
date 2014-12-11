@@ -12,7 +12,7 @@ mpz_class mpz_crt (const std::vector<mpz_class> rs, const std::vector<mpz_class>
     return mpz_crt_worker(rs, ms, len - 1, mpz_product(ms, 0, len));
 }
 
-// recursive
+// recursive, TODO: make iterative
 mpz_class mpz_crt_worker (const std::vector<mpz_class> rs,
                           const std::vector<mpz_class> ms,
                           int index,
