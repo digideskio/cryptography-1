@@ -80,8 +80,8 @@ void test(int bits, int test_count)
         // }
     }
 
-    printf("Time spent using own algorithm: %f\n", ((double) times1) / CLOCKS_PER_SEC);
-    printf("Time spent using GMP algorithm: %f\n", ((double) times2) / CLOCKS_PER_SEC);
+    printf("Time spent using own algorithm: %f seconds\n", ((double) times1) / CLOCKS_PER_SEC);
+    printf("Time spent using GMP algorithm: %f seconds\n", ((double) times2) / CLOCKS_PER_SEC);
     printf("Speed-up: %f\n", ((double) times2) / ((double) times1));
 }
 

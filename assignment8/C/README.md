@@ -15,14 +15,14 @@ Contains the algorithms for the Chinese Remainder Theorem (recursive) and the ex
 Run on my computer, the implementation produces the following results:
 
     Running 100 tests for N = 1024
-    Time spent using own algorithm: 0.748686
-    Time spent using GMP algorithm: 1.153354
-    Speed-up: 1.540504
+    Time spent using own algorithm: 0.783164 seconds
+    Time spent using GMP algorithm: 1.229521 seconds
+    Speed-up: 1.569941
     Running 50 tests for N = 2048
-    Time spent using own algorithm: 2.317670
-    Time spent using GMP algorithm: 4.039326
-    Speed-up: 1.742839
+    Time spent using own algorithm: 2.494518 seconds
+    Time spent using GMP algorithm: 4.306443 seconds
+    Speed-up: 1.726363
     Running 20 tests for N = 4096
-    Time spent using own algorithm: 6.468639
-    Time spent using GMP algorithm: 9.608183
-    Speed-up: 1.485348
+    Time spent using own algorithm: 6.791347 seconds
+    Time spent using GMP algorithm: 10.071012 seconds
+    Speed-up: 1.482918
