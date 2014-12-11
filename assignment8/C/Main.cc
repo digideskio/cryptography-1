@@ -8,10 +8,9 @@ int main (int argc, char const *argv[])
     int x = 1234;
     int m = 105;
 
-    vector<mpz_class> rs = {1, 4, 1};
     vector<mpz_class> ms = {3, 5, 7};
 
-    mpz_class y = mpz_crt(rs, ms);
+    mpz_class y = mpz_crt_exp(mpz_class(a), mpz_class(x), ms);
 
     char* str_y = mpz_get_str(NULL, 10, y.get_mpz_t());
 

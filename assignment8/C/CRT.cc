@@ -12,6 +12,7 @@ mpz_class mpz_crt (const std::vector<mpz_class> rs, const std::vector<mpz_class>
     return mpz_crt_worker(rs, ms, len - 1, mpz_product(ms, 0, len));
 }
 
+// recursive
 mpz_class mpz_crt_worker (const std::vector<mpz_class> rs,
                           const std::vector<mpz_class> ms,
                           int index,
@@ -41,6 +42,28 @@ mpz_class mpz_crt_worker (const std::vector<mpz_class> rs,
     mpz_class x = previous_result * u + a * v;
 
     return mpz_class_fdiv_r(x, b * product);
+}
+
+// use the chinese remainder theorem to calculate y = a^x mod (m1 * ... * mn)
+mpz_class mpz_crt_exp (mpz_class a,
+                       mpz_class x,
+                       const std::vector<mpz_class> ms)
+{
+    std::vector<mpz_class> rs;
+    rs.reserve(ms.size());
+
+    std::vector<mpz_class>::const_iterator i;
+
+    // calculate residue for each m_i
+    for(i = ms.begin(); i != ms.end(); ++i)
+    {
+        mpz_class result = 0;
+        mpz_powm(result.get_mpz_t(), a.get_mpz_t(), x.get_mpz_t(), (*i).get_mpz_t());
+        rs.push_back(result);
+    }
+
+    // use chinese remainder theorem to calculate y = a^x mod (m1 * ... * mn)
+    return mpz_crt(rs, ms);
 }
 
 // end is exclusive
